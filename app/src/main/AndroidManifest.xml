@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:installLocation="internalOnly"
+    android:sharedUserId="android.uid.system"
+    package="com.swiftpot.toggle4glte">
+
+    <!--android:sharedUserId="android.uid.system"-->
+
+
+        <!--<activity-->
+            <!--android:name=".MainActivity"-->
+            <!--android:label="@string/app_name"-->
+            <!--android:theme="@style/AppTheme.NoActionBar">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+
+
+        <!--
+		This tells the activity manager to not delay any of our activity start
+		requests, even if they happen immediately after the user presses home.
+	-->
+    <original-package android:name="com.android.phone" />
+        <uses-permission android:name="android.permission.STOP_APP_SWITCHES"
+          />
+        <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+        <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+        <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+        <application android:icon="@mipmap/ic_launcher"
+            android:supportsRtl="true"
+            android:process="com.android.phone"
+            android:label="@string/app_name"
+            >
+            <activity android:name=".Toggle2G" android:label="@string/app_name"
+                android:launchMode="singleTask" android:process="com.android.phone">
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN" />
+                    <category android:name="android.intent.category.LAUNCHER" />
+                </intent-filter>
+            </activity>
+
+            <service android:name=".Toggle2GService" android:label="@string/app_name"
+                android:persistent="true" android:process="com.android.phone"
+                android:exported="true">
+            </service>
+
+            <receiver android:name=".Toggle2GBoot" android:process="com.android.phone">
+                <intent-filter>
+                    <action android:name="android.intent.action.BOOT_COMPLETED" />
+                    <category android:name="android.intent.category.LAUNCHER" />
+                </intent-filter>
+            </receiver>
+
+            <receiver android:name=".Toggle2GNotificationReceiver" android:process="com.android.phone">
+                <intent-filter>
+                    <action android:name="com.swiftpot.notification.ENABLE_3G" />
+                </intent-filter>
+            </receiver>
+
+            <receiver android:name=".Toggle2GWidgetReceiver" android:process="com.android.phone">
+                <intent-filter>
+                    <action android:name="com.swiftpot.toggle.widget.COMMAND" />
+                </intent-filter>
+            </receiver>
+
+            <!--
+                This is the "edit" Activity. The mdpi icon should be 32x32. The hdpi
+                icon should be 48x48. Locale will scale the icons if necessary, but
+                providing pre-scaled versions will improve quality and performance.
+            -->
+            <activity android:name=".LocaleEditActivity" android:label="@string/plugin_name"
+                android:icon="@mipmap/ic_launcher" android:theme="@android:style/Theme.Dialog">
+                <!--
+                    this Intent filter allows the plug-in to be discovered by Locale
+                -->
+                <intent-filter>
+                    <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+                </intent-filter>
+            </activity>
+            <!-- This is the "fire" BroadcastReceiver -->
+            <receiver android:name=".LocaleFireReceiver" android:process="com.android.phone">
+                <!-- this Intent filter allows the plug-in to be fired -->
+                <intent-filter>
+                    <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
+                </intent-filter>
+            </receiver>
+        </application>
+
+
+</manifest>
